@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Tabata Timer - High-intensity interval training timer">
+    <title>Tabata Timer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Settings Panel -->
+        <div id="settings-panel" class="settings-panel">
+            <h1>Tabata Timer</h1>
+            <form id="settings-form">
+                <div class="form-group">
+                    <label for="round-duration">Round Duration (seconds)</label>
+                    <input type="number" id="round-duration" name="round-duration" min="1" max="300" value="20" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="num-rounds">Number of Rounds</label>
+                    <input type="number" id="num-rounds" name="num-rounds" min="1" max="8" value="4" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rest-duration">Rest Time (seconds)</label>
+                    <input type="number" id="rest-duration" name="rest-duration" min="0" max="300" value="10" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="background-song">Background Song</label>
+                    <select id="background-song" name="background-song">
+                        <option value="">No song</option>
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                
+                <button type="submit" id="start-btn" class="btn btn-primary">Start</button>
+            </form>
+        </div>
+
+        <!-- Timer Display -->
+        <div id="timer-display" class="timer-display hidden">
+            <!-- Circular Progress Indicators -->
+            <div class="timer-circle-container">
+                <svg class="timer-svg" viewBox="0 0 400 400">
+                    <!-- Outer Circle (Total Duration) -->
+                    <circle class="circle-bg outer-circle-bg" cx="200" cy="200" r="180" fill="none" stroke="#1a1a1a" stroke-width="20"/>
+                    <circle class="circle-progress outer-circle-progress" cx="200" cy="200" r="180" fill="none" stroke="#00CED1" stroke-width="20" 
+                            stroke-linecap="round" transform="rotate(-90 200 200)"/>
+                    
+                    <!-- Inner Circle Background -->
+                    <circle class="circle-bg inner-circle-bg" cx="200" cy="200" r="140" fill="none" stroke="#1a1a1a" stroke-width="16"/>
+                </svg>
+                
+                <!-- SVG Inner Circle for Round and Rest Time -->
+                <svg class="timer-svg-inner" viewBox="0 0 400 400">
+                    <circle class="circle-progress inner-circle-progress round-time hidden" cx="200" cy="200" r="140" fill="none" stroke="#FF8C00" stroke-width="16" 
+                            stroke-linecap="round" transform="rotate(-90 200 200)"/>
+                    <circle class="circle-progress inner-circle-progress rest-time hidden" cx="200" cy="200" r="140" fill="none" stroke="#90EE90" stroke-width="16" 
+                            stroke-linecap="round" transform="rotate(-90 200 200)"/>
+                </svg>
+                
+                <!-- Center Content -->
+                <div class="timer-center">
+                    <div id="countdown-number" class="countdown-number">0</div>
+                </div>
+
+                <!-- Info Displays - Positioned around the circle -->
+                <div class="timer-info">
+                    <div class="info-item info-top-left">
+                        <div class="info-label">Round</div>
+                        <div id="round-indicator" class="info-value">1/4</div>
+                    </div>
+                    
+                    <div class="info-item info-top-right">
+                        <div class="info-label">Cycles</div>
+                        <div id="cycles-indicator" class="info-value">1/1</div>
+                    </div>
+                    
+                    <div class="info-item info-bottom-left">
+                        <div class="info-label">Remaining</div>
+                        <div id="remaining-time" class="info-value">00:00</div>
+                    </div>
+                    
+                    <div class="info-item info-bottom-right">
+                        <div class="info-label">Elapsed</div>
+                        <div id="elapsed-time" class="info-value">00:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="timer-controls">
+                <button id="pause-resume-btn" class="btn btn-secondary hidden">Pause</button>
+                <button id="stop-btn" class="btn btn-danger">Stop</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/songs-list.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
