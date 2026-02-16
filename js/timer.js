@@ -325,9 +325,9 @@ class TabataTimer {
             this.state.workoutElapsedTime = (now - this.state.workoutStartTime) / 1000;
         }
 
-        // Play round cue 10 seconds before rest ends
-        // Check for range 10000-10100ms to account for 100ms update interval
-        if (remainingMs <= 10100 && remainingMs > 9900 && !this.state.restRoundCuePlayed) {
+        // Play round cue 8 seconds before rest ends (changed from 10 seconds)
+        // Check for range 8000-8100ms to account for 100ms update interval
+        if (remainingMs <= 8100 && remainingMs > 7900 && !this.state.restRoundCuePlayed) {
             const nextRound = this.state.currentRound + 1;
             if (nextRound <= 8) {
                 audioManager.playOverlayCue(`Resources/round_${nextRound}.mp3`);

@@ -2,38 +2,27 @@
 
 A mobile-first web application for Tabata interval training workouts with synchronized audio cues and visual progress indicators.
 
+**🌐 Live App:** [https://astryia.github.io/tabata-timer/](https://astryia.github.io/tabata-timer/)
+
+## What is Tabata Timer?
+
+Tabata Timer is a web-based workout timer designed specifically for Tabata interval training. It provides visual and audio guidance throughout your workout, making it easy to follow along without constantly checking the timer. The app features dual circular progress indicators, synchronized audio cues, and optional background music to keep you motivated during your training sessions.
+
 ## Features
 
-- **Configurable Workouts**: Set round duration, number of rounds (max 8), and rest time
-- **Background Music**: Choose from available songs or workout without music
-- **Audio Cues**: Automatic voice prompts for round transitions and countdowns
-- **Visual Progress**: Dual circular progress indicators showing overall and current interval progress
-- **Pause/Resume**: Full control over workout timing
-- **Mobile-First Design**: Optimized for mobile devices with responsive layout
-
-## Project Structure
-
-```
-TabataTimer/
-├── index.html              # Main HTML file
-├── css/
-│   └── styles.css          # Mobile-first responsive styles
-├── js/
-│   ├── audio.js            # Audio playback and mixing logic
-│   ├── timer.js            # Core timer logic and state management
-│   ├── ui.js               # UI updates and circular progress rendering
-│   └── main.js             # Application entry point and integration
-├── Resources/              # Audio resources
-│   ├── Songs/              # Background songs
-│   ├── are_you_ready.mp3
-│   ├── round_1.mp3 - round_8.mp3
-│   ├── 5_4_3_2_1_go.mp3
-│   └── 3_2_1_stop.mp3
-├── .github/
-│   └── workflows/
-│       └── deploy.yml      # GitHub Actions CI/CD for Pages
-└── README.md
-```
+- **Customizable Workouts**: Configure round duration (1-300 seconds), number of rounds (up to 8), and rest time (0-300 seconds)
+- **Background Music**: Choose from available songs or workout in silence
+- **Smart Audio Cues**: Automatic voice prompts guide you through each round:
+  - "Are you ready?" → "Round X" → "5, 4, 3, 2, 1, Go!" at the start
+  - "3, 2, 1, Stop!" 3 seconds before each round ends
+  - Round number announcement 8 seconds before rest ends
+  - "5, 4, 3, 2, 1, Go!" 5 seconds before rest ends
+- **Visual Progress Tracking**: 
+  - Outer circle shows total workout progress
+  - Inner circle shows current round/rest progress with color coding (orange for rounds, green for rest)
+- **Full Control**: Pause, resume, or stop your workout at any time
+- **Mobile-Optimized**: Designed for mobile devices with a responsive layout that works on all screen sizes
+- **Background Music Mixing**: Background music automatically lowers by 50% when audio cues play, ensuring you never miss important instructions
 
 ## Local Testing
 
@@ -104,13 +93,15 @@ TabataTimer/
    - Timer begins counting down
 
 3. **During Workout**:
-   - Outer circle shows total workout progress
-   - Inner circle shows current round/rest progress
-   - 3 seconds before round ends: "3, 2, 1, Stop!" plays
-   - Rest period begins with light green inner circle
-   - 10 seconds before rest ends: Next round number plays
-   - 5 seconds before rest ends: "5, 4, 3, 2, 1, Go!" plays
-   - Process repeats for all rounds
+   - Outer circle shows total workout progress (starts after intro sequence)
+   - Inner circle shows current round/rest progress with color coding
+   - Orange inner circle during workout rounds
+   - Green inner circle during rest periods
+   - 3 seconds before round ends: "3, 2, 1, Stop!" plays (background music lowers)
+   - Rest period begins automatically
+   - 8 seconds before rest ends: Next round number plays (background music lowers)
+   - 5 seconds before rest ends: "5, 4, 3, 2, 1, Go!" plays (background music lowers)
+   - Process repeats for all configured rounds
 
 4. **Controls**:
    - **Pause**: Pause the workout timer
@@ -165,12 +156,15 @@ This will automatically scan the `Resources/Songs/` folder and generate `js/song
 - Safari (iOS 11+)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-## Technical Details
+## How It Works
 
-- **Audio Mixing**: Uses Web Audio API for precise audio control and mixing
-- **Progress Rendering**: SVG for outer circle, Canvas for inner circle gradient
-- **Timer Precision**: 100ms update interval for smooth progress
-- **Wake Lock**: Prevents screen sleep during workout (supported browsers)
+The app uses modern web technologies to provide a smooth, responsive experience:
+
+- **Web Audio API**: Handles all audio playback and mixing, allowing background music and voice cues to play simultaneously
+- **SVG Progress Circles**: Smooth, animated circular progress indicators that update in real-time
+- **Precise Timing**: 100ms update interval ensures accurate timing and smooth visual updates
+- **Wake Lock API**: Prevents your device screen from sleeping during workouts (on supported browsers)
+- **Mobile-First Design**: Responsive layout that adapts to any screen size, optimized for touch interactions
 
 ## License
 
