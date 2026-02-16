@@ -373,7 +373,10 @@ class TabataTimer {
      * Get current timer state
      */
     getState() {
-        const totalDuration = (this.state.roundDuration + this.state.restDuration) * this.state.totalRounds;
+        // Calculate total duration: rounds + rest periods (but no rest after last round)
+        // Formula: roundDuration * totalRounds + restDuration * (totalRounds - 1)
+        const totalDuration = (this.state.roundDuration * this.state.totalRounds) + 
+                              (this.state.restDuration * (this.state.totalRounds - 1));
         
         // Use workoutElapsedTime for outer circle (starts after intro)
         // Fall back to elapsedTime if workout hasn't started yet

@@ -15,17 +15,29 @@
             <form id="settings-form">
                 <div class="form-group">
                     <label for="round-duration">Round Duration (seconds)</label>
-                    <input type="number" id="round-duration" name="round-duration" min="1" max="300" value="20" required>
+                    <div class="input-with-buttons">
+                        <button type="button" class="btn-minus" data-target="round-duration" data-step="-10">−</button>
+                        <input type="number" id="round-duration" name="round-duration" min="1" max="300" value="20" required>
+                        <button type="button" class="btn-plus" data-target="round-duration" data-step="10">+</button>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="num-rounds">Number of Rounds</label>
-                    <input type="number" id="num-rounds" name="num-rounds" min="1" max="8" value="4" required>
+                    <div class="input-with-buttons">
+                        <button type="button" class="btn-minus" data-target="num-rounds" data-step="-1">−</button>
+                        <input type="number" id="num-rounds" name="num-rounds" min="1" max="8" value="4" required>
+                        <button type="button" class="btn-plus" data-target="num-rounds" data-step="1">+</button>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="rest-duration">Rest Time (seconds)</label>
-                    <input type="number" id="rest-duration" name="rest-duration" min="0" max="300" value="10" required>
+                    <div class="input-with-buttons">
+                        <button type="button" class="btn-minus" data-target="rest-duration" data-step="-10">−</button>
+                        <input type="number" id="rest-duration" name="rest-duration" min="0" max="300" value="10" required>
+                        <button type="button" class="btn-plus" data-target="rest-duration" data-step="10">+</button>
+                    </div>
                 </div>
                 
                 <div class="form-group">

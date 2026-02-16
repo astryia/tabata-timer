@@ -79,6 +79,47 @@ function setupEventHandlers() {
 
     pauseResumeBtn.addEventListener('click', handlePauseResume);
     stopBtn.addEventListener('click', handleStop);
+
+    // +/- buttons for number inputs
+    setupNumberButtons();
+}
+
+/**
+ * Set up +/- buttons for number inputs
+ */
+function setupNumberButtons() {
+    const minusButtons = document.querySelectorAll('.btn-minus');
+    const plusButtons = document.querySelectorAll('.btn-plus');
+
+    minusButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            adjustNumberInput(btn.dataset.target, parseInt(btn.dataset.step));
+        });
+    });
+
+    plusButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            adjustNumberInput(btn.dataset.target, parseInt(btn.dataset.step));
+        });
+    });
+}
+
+/**
+ * Adjust number input value by step amount, respecting min/max
+ */
+function adjustNumberInput(inputId, step) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const currentValue = parseInt(input.value) || 0;
+    const min = parseInt(input.min) || 0;
+    const max = parseInt(input.max) || Infinity;
+    const newValue = Math.max(min, Math.min(max, currentValue + step));
+
+    input.value = newValue;
+    
+    // Trigger input event to ensure validation
+    input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 /**
