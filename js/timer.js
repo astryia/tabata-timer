@@ -381,7 +381,7 @@ class TabataTimer {
         // Use workoutElapsedTime for outer circle (starts after intro)
         // Fall back to elapsedTime if workout hasn't started yet
         const workoutTime = this.state.workoutElapsedTime || 0;
-        const remaining = Math.max(0, Math.floor(totalDuration - workoutTime)); // Round down to whole seconds
+        const remaining = Math.max(0, Math.ceil(totalDuration - workoutTime)); // Round up to match innerRemaining display
 
         let innerProgress = 0;
         let innerRemaining = 0;

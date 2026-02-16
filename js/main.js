@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
  * Initialize the application
  */
 async function initApp() {
+    // Initialize notification manager
+    notificationManager.init();
+
     // Initialize UI manager
     uiManager.init();
 
@@ -29,15 +32,12 @@ async function initApp() {
         uiManager.update(state);
     });
 
-    tabataTimer.setOnCompleteCallback(() => {
+    tabataTimer.setOnCompleteCallback(async () => {
         uiManager.showCompletion();
-        // Optionally show a completion message or return to settings
-        setTimeout(() => {
-            if (confirm('Workout complete! Start another?')) {
-                resetToSettings();
-            } else {
-                resetToSettings();
-            }
+        // Show completion notification
+        setTimeout(async () => {
+            await notificationManager.alert('Workout complete!');
+            resetToSettings();
         }, 1000);
     });
 
@@ -136,17 +136,17 @@ async function handleStart(e) {
 
     // Validate inputs
     if (roundDuration < 1 || roundDuration > 300) {
-        alert('Round duration must be between 1 and 300 seconds');
+        await notificationManager.alert('Round duration must be between 1 and 300 seconds');
         return;
     }
 
     if (numRounds < 1 || numRounds > 8) {
-        alert('Number of rounds must be between 1 and 8');
+        await notificationManager.alert('Number of rounds must be between 1 and 8');
         return;
     }
 
     if (restDuration < 0 || restDuration > 300) {
-        alert('Rest duration must be between 0 and 300 seconds');
+        await notificationManager.alert('Rest duration must be between 0 and 300 seconds');
         return;
     }
 
@@ -166,7 +166,7 @@ async function handleStart(e) {
         await tabataTimer.start();
     } catch (error) {
         console.error('Error starting timer:', error);
-        alert('Failed to start timer. Please try again.');
+        await notificationManager.alert('Failed to start timer. Please try again.');
         resetToSettings();
     }
 }
@@ -190,10 +190,27 @@ function handlePauseResume() {
 /**
  * Handle stop button click
  */
-function handleStop() {
-    if (confirm('Are you sure you want to stop the workout?')) {
+async function handleStop() {
+    const state = tabataTimer.getState();
+    
+    // Pause timer immediately when stop is pressed (in case user meant to press pause)
+    let wasPaused = false;
+    if (state.phase !== 'idle' && state.phase !== 'paused' && state.phase !== 'completed') {
+        tabataTimer.pause();
+        wasPaused = true;
+    }
+    
+    const confirmed = await notificationManager.confirm('Are you sure you want to stop the workout?');
+    
+    if (confirmed) {
+        // User confirmed - stop and reset
         tabataTimer.stop();
         resetToSettings();
+    } else {
+        // User cancelled - resume if we paused it
+        if (wasPaused) {
+            tabataTimer.resume();
+        }
     }
 }
 
